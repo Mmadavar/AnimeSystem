@@ -53,6 +53,16 @@ div {
 
 }
 
+.result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    padding: 10px 20px 10px 20px;
+    column-count: 3;
+    column-gap: 10px;
+}
+
 
 
 /* width and heights equals content, padding and border */
