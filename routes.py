@@ -2,8 +2,17 @@
 # print("TensorFlow version:", tf.__version__)
 
 from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 
+#create extension
+db = SQLAlchemy()
+
+#create the app
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+
+#initialize app with extension
+db.init_app(app)
 
 
 @app.route("/", requests=["POST", "GET"])
@@ -15,6 +24,12 @@ def index():
                                episodes=preferred_episodes)
     return render_template("index.html")
 
+@app.route("/logout", requests=["POST","GET"])
+def logout():
+
+
+
+
 
 @app.route("/templates/recommendation.html", requests=["POST", "GET"])
 def recommendation():
@@ -22,14 +37,13 @@ def recommendation():
     return render_template("recommendation.html")
 
 
-@app.route("/index.html")
-def genre():
-    return render_template("index.html")
-
-
 @app.route("/submission.html", request=["POST", "GET"])
 def submission():
-    return render_template("submission.html")
+    if request.method == "POST":
+        genre_recommendation = request.form.get("genre")
+        episode_length = request.form.get("episode")
+        recommendations = []
+        return render_template("submission.html")
 
 
 if __name__ == '__main__':
