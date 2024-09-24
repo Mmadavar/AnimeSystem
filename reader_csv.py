@@ -6,11 +6,12 @@ df = pd.read_csv('anime.csv', usecols=["genre"])
 print(df)
 
 #convert genres into numerical vectors using TF-IDF
-TfidfVectorizer.
+#TfidfVectorizer.
+
 
 #compute cosine similarily between TF-IDF vectors
 
-# get recommendations based on cosine similarity
+# function to get recommendations based on cosine similarity
 
 
 
