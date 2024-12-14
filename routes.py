@@ -26,7 +26,6 @@ class Users(db.model):
     password = db.column(db.string)
 
 
-
 @app.route("/", methods=["POST", "GET"])
 def index():
     if request.method == "POST":
@@ -64,7 +63,8 @@ def register():
 
     return render_template("register.html")
 
-@app.route("/templates/login.html", methods=["GET","POST"])
+
+@app.route("/templates/login.html", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
@@ -76,7 +76,6 @@ def login():
 
 @app.route("/templates/delete.html", methods=["GET", "POST"])
 def delete():
-
     if request.method == "POST":
         email = request.form.get("email")
 
@@ -93,6 +92,9 @@ def delete():
     return render_template("delete.html", message=message)
 
 
+@app.route("/templates/result.html", methods=["GET", "POST"])
+def result():
+    return render_template("result.html")
 
 
 if __name__ == '__main__':
