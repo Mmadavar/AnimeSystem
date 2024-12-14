@@ -1,10 +1,7 @@
-# import tensorflow as tf
-# print("TensorFlow version:", tf.__version__)
-
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_manager, login_user, logout_user
 from sqlalchemy.sql import func
-
 from sqlalchemy.testing.pickleable import User
 
 #create extension
@@ -21,9 +18,19 @@ db.init_app(app)
 
 class Users(db.model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.column(db.string)
-    email = db.column(db.string)
-    password = db.column(db.string)
+    name = db.column(db.string(25), unique=True, nullable=False)
+    email = db.column(db.string(250), nullable=False)
+    password = db.column(db.string(250), nullable=False)
+
+
+with app.app_context():
+    db.create_all()
+
+
+# Creates a user loader callback that returns the user object give an id.
+@login_manager.user_loader
+def loader_user(user_id):
+    return Users.query.get(user_id)
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -61,24 +68,35 @@ def register():
         db.session.add(user)
         db.session.commit()
 
+        return redirect(url_for("index"))
+
     return render_template("register.html")
 
 
 @app.route("/templates/login.html", methods=["GET", "POST"])
 def login():
+    #post request was made, find user by
+    # filtering for the username
     if request.method == "POST":
-        email = request.form.get("email")
-        password = request.form.get("password")
-        user = Users.query.filter_by(email=email).first()
+        user = Users.query.filter_by(email=request.form.get("email")).first()
+
+        if user.password == request.form.get("password"):
+            login_user(user)
+            return redirect(url_for("index"))
 
     return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("login.html"))
 
 
 @app.route("/templates/delete.html", methods=["GET", "POST"])
 def delete():
     if request.method == "POST":
         email = request.form.get("email")
-
         # query by email
         user = Users.query.filter_by(email=email).first()
 
