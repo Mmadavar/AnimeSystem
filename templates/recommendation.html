@@ -8,7 +8,15 @@
     <title>Document</title>
 </head>
 <body>
-    {% include 'nav.html' %}
+
+    <ul>
+        {% for recommendation in recommendations %}
+            <li>{{ recommendation }}</li>
+
+        {% endfor %}
+    </ul>
+
+
 
 </body>
 </html>

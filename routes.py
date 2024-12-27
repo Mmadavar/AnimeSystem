@@ -1,8 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_manager, login_user, logout_user
-from sqlalchemy.sql import func
-from sqlalchemy.testing.pickleable import User
+from Recommendation_Algorithm import recommendation
 
 #create extension
 db = SQLAlchemy()
@@ -38,8 +37,8 @@ def index():
     if request.method == "POST":
         preferred_genre = request.form.get("genre")
         preferred_episodes = request.form.get("episode")
-        return render_template("index.html", message="Data Submitted!", genre=preferred_genre,
-                               episodes=preferred_episodes)
+        recommendations = recommendation(preferred_genre, preferred_episodes)
+        return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations )
     return render_template("index.html")
 
 
@@ -47,15 +46,6 @@ def index():
 def recommendation():
     #  query = flask.request.args
     return render_template("recommendation.html")
-
-
-@app.route("/submission.html", methods=["POST", "GET"])
-def submission():
-    if request.method == "POST":
-        genre_recommendation = request.form.get("genre")
-        episode_length = request.form.get("episode")
-        recommendations = []
-        return render_template("submission.html")
 
 
 @app.route("/templates/register.html", methods=["GET", "POST"])
@@ -80,9 +70,11 @@ def login():
     if request.method == "POST":
         user = Users.query.filter_by(email=request.form.get("email")).first()
 
-        if user.password == request.form.get("password"):
+        if user.password == request.form.get("password") and user.email == request.form.get("email"):
             login_user(user)
             return redirect(url_for("index"))
+        else:
+            return redirect(url_for("login"))
 
     return render_template("login.html")
 
