@@ -7,7 +7,7 @@ data = pd.read_csv('anime.csv', usecols=["genre", "names", "episodes"])
 
 
 
-#convert genres into numerical vectors using TF-IDF TfidfVectorizer.
+#convert episodes into numerical vectors using TF-IDF TfidfVectorizer.
 data["episodes"] = pd.to_numeric(data["episodes"]).astype(int)
 
 
@@ -16,15 +16,16 @@ data["episodes"] = pd.to_numeric(data["episodes"]).astype(int)
 #compute cosine similarily between TF-IDF vectors
 
 
+
 # function to get recommendations based on cosine similarity
 def recommendation(episodes, genre, recommendations=5):
     """
         Get anime recommendations based on genre and episode length.
 
-        :param input_genre: Genre input from the user
-        :param max_episodes: Maximum number of episodes preferred by the user
-        :param top_n: Number of recommendations to return
-        :return: List of recommended anime names
+        input_genre: Genre input from the user
+        max_episodes: Maximum number of episodes preferred by the user
+        top_n: Number of recommendations to return
+        return: List of recommended anime names
         """
 
     # Create a vector for the input genre
