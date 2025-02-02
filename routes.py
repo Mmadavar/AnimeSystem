@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_manager, login_user, logout_user
 from Recommendation_Algorithm import recommendation
@@ -37,8 +37,8 @@ def index():
     if request.method == "POST":
         preferred_genre = request.form.get("genre")
         preferred_episodes = request.form.get("episode")
-        recommendations = recommendation(preferred_genre, preferred_episodes)
-        return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations )
+        recommendations = recommendation(preferred_genre, preferred_episodes,5)
+        return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations.to_dict(orient="records"))
     return render_template("index.html")
 
 
