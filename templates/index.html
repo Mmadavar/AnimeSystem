@@ -3,22 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            padding: 20px;
+            text-align: center;
+
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        button {
+            font-size: 1rem;
+            color: #2575fc;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.5s, transform 0.5s;
+        }
+
+        button:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.0);
+        }
+
+        .logout-section {
+            margin-top: 1rem;
+        }
+
+        .logout-btn {
+            background-color: #ff4b5c;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background-color: #d32f2f;
+        }
+
+    </style>
 </head>
 <body>
-{% if users.login() %}
-<form action="/" method="post">
-    <label>
-        <textarea name="genre" datatype="string">What's your preferred genre</textarea>
-    </label>
-    <br>
+{% if not users.login() %}
+    <h1>Welcome to the Anime Recommendation System</h1>
+    <p>Please Login or register to get started</p>
 
-    <label>
-       <textarea name="episode" datatype="number">What's an episode length that you prefer</textarea>
-    </label>
-    <button type="submit">Submit</button>
+    <div class="button-group">
+        <a href="/login"><button type="button">Login</button></a>
+        <a href="{{ url_for('register') }}"><button type="button">Register</button></a>
+    </div>
+{% else %}
+    <p>You're already logged in</p>
+    <div class="logout-section">
+        <a href="{{ url_for('logout') }}"><button type="button" class="logout-btn">Logout</button></a>
+    </div>
+{% endif %}
 
-    <button href="/logout">Logout</button>
-</form>
 
 {% include 'footer.html' %}
 

@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_manager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user
 from Recommendation_Algorithm import recommendation
 
 #create extension
@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db.init_app(app)
 
 
-class Users(db.model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.column(db.string(25), unique=True, nullable=False)
     email = db.column(db.string(250), nullable=False)
@@ -26,9 +26,11 @@ with app.app_context():
     db.create_all()
 
 
+login_manager = LoginManager()
+login_manager.init_app(app)
 # Creates a user loader callback that returns the user object give an id.
 @login_manager.user_loader
-def loader_user(user_id):
+def load_user(user_id):
     return Users.query.get(user_id)
 
 
@@ -40,6 +42,15 @@ def index():
         recommendations = recommendation(preferred_genre, preferred_episodes,5)
         return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations.to_dict(orient="records"))
     return render_template("index.html")
+
+@app.route("/form", methods=["POST", "GET"])
+def form():
+    if request.method == "POST":
+        preferred_genre = request.form.get("genre")
+        preferred_episodes = request.form.get("episode")
+        recommendations = recommendation(preferred_genre, preferred_episodes,5)
+        return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations.to_dict(orient="records"))
+    return render_template("form.html")
 
 
 @app.route("/templates/recommendation.html", methods=["POST", "GET"])
@@ -82,7 +93,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("login.html"))
+    return redirect(url_for("login"))
 
 
 @app.route("/templates/delete.html", methods=["GET", "POST"])
@@ -96,16 +107,17 @@ def delete():
             db.session.delete(user)
             db.session.commit()
             message = "User is Deleted"
+            return render_template("delete.html", message=message)
         else:
             message = "User not Found"
+            return render_template("delete.html", message=message)
 
-    return render_template("delete.html", message=message)
 
 
-@app.route("/templates/result.html", methods=["GET", "POST"])
-def result():
-    return render_template("result.html")
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
