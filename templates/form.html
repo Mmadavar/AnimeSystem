@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Preferences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 60px;
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        button[type="submit"], button.logout-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 10px;
+            margin-right: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button.logout-btn {
+            background-color: #dc3545;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+{% if users.login() %}
+<form action="/" method="post">
+    <label>
+        <textarea name="genre" datatype="string">What's your preferred genre</textarea>
+    </label>
+    <br>
+
+    <label>
+       <textarea name="episode" datatype="number">What's an episode length that you prefer</textarea>
+    </label>
+    <button type="submit">Submit</button>
+
+   <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+</form>
+{% else %}
+    <p>You have not logged in yet. Click the Log in button</p>
+    <a href="{{ url_for('login') }}"><button>Log in</button></a>
+{% endif %}
+
+{% include 'footer.html' %}
+
+</body>
+</html>
