@@ -36,11 +36,6 @@ def load_user(user_id):
 
 @app.route("/", methods=["POST", "GET"])
 def index():
-    if request.method == "POST":
-        preferred_genre = request.form.get("genre")
-        preferred_episodes = request.form.get("episode")
-        recommendations = recommendation(preferred_genre, preferred_episodes,5)
-        return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations.to_dict(orient="records"))
     return render_template("index.html")
 
 @app.route("/form", methods=["POST", "GET"])
@@ -85,7 +80,7 @@ def login():
             login_user(user)
             return redirect(url_for("index"))
         else:
-            return redirect(url_for("login"))
+            return redirect(url_for("index"))
 
     return render_template("login.html")
 
@@ -93,7 +88,7 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for("login"))
+    return redirect(url_for("index"))
 
 
 @app.route("/templates/delete.html", methods=["GET", "POST"])
@@ -107,13 +102,10 @@ def delete():
             db.session.delete(user)
             db.session.commit()
             message = "User is Deleted"
-            return render_template("delete.html", message=message)
+            return redirect(url_for("index"))
         else:
             message = "User not Found"
             return render_template("delete.html", message=message)
-
-
-
 
 
 if __name__ == '__main__':

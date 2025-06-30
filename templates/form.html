@@ -40,7 +40,7 @@
             font-family: inherit;
         }
 
-        button[type="submit"], button.logout-btn {
+        button[type="submit"], button.logout-login, button.home-page {
             background-color: #007bff;
             color: white;
             border: none;
@@ -52,7 +52,7 @@
             font-size: 16px;
         }
 
-        button.logout-btn {
+        button.logout-login, button.home-page {
             background-color: #dc3545;
         }
 
@@ -74,11 +74,12 @@
     </label>
     <button type="submit">Submit</button>
 
-   <a href="{{ url_for('logout') }}"><button class="logout-btn">Logout</button></a>
+   <a href="{{ url_for('logout') }}"><button class="logout-login">Logout</button></a>
 </form>
 {% else %}
     <p>You have not logged in yet. Click the Log in button</p>
-    <a href="{{ url_for('login') }}"><button>Log in</button></a>
+    <a href="{{ url_for('login') }}"><button class="logout-login">Log in</button></a>
+    <a href="{{ url_for('index')}}"><button class="home-page">Go to home page</button></a>
 {% endif %}
 
 {% include 'footer.html' %}
