@@ -61,7 +61,7 @@
     </style>
 </head>
 <body>
-{% if not users.login() %}
+{% if not current_user.is_authenticated %}
     <h1>Welcome to the Anime Recommendation System</h1>
     <p>Please Login or register to get started</p>
 
