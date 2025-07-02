@@ -1,7 +1,9 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, UserMixin
 from Recommendation_Algorithm import recommendation
+import os
+
 
 #create extension
 db = SQLAlchemy()
@@ -10,12 +12,12 @@ db = SQLAlchemy()
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-
+app.secret_key = os.urandom(24)
 #initialize app with extension
 db.init_app(app)
 
 
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(25), unique=True, nullable=False)
     email = db.Column(db.String(250), nullable=False)
@@ -76,11 +78,11 @@ def login():
     if request.method == "POST":
         user = Users.query.filter_by(email=request.form.get("email")).first()
 
-        if user.password == request.form.get("password") and user.email == request.form.get("email"):
+        if user and user.password == request.form.get("password"):
             login_user(user)
             return redirect(url_for("index"))
         else:
-            return redirect(url_for("index"))
+            print("Invalid email or password")
 
     return render_template("login.html")
 

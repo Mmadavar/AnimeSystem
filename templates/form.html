@@ -62,7 +62,7 @@
     </style>
 </head>
 <body>
-{% if users.login() %}
+{% if current_user.is_authenticated %}
 <form action="/" method="post">
     <label>
         <textarea name="genre" datatype="string">What's your preferred genre</textarea>
