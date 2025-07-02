@@ -49,12 +49,12 @@
 
 
 
-        .logout-btn {
+        .logout-btn, .delete-btn {
             background-color: #ff4b5c;
             color: white;
         }
 
-        .logout-btn:hover {
+        .logout-btn:hover, .delete-btn:hover {
             background-color: #d32f2f;
         }
 
@@ -73,10 +73,10 @@
     <p>You're already logged in</p>
     <div class="logout-section">
         <a href="{{ url_for('logout') }}"><button type="button" class="logout-btn">Logout</button></a>
-        <a href="{{ url_for('delete') }}"><button type="button" class="logout-btn">Delete Account</button></a>
+        <a href="{{ url_for('delete') }}"><button type="button" class="delete-btn">Delete Account</button></a>
     </div>
     <div class="form-section">
-        <a href="{{ url_for('form') }}"></a>
+        <a href="{{ url_for('form') }}"><button type="button">Access the Form</button></a>
     </div>
 {% endif %}
 
