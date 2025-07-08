@@ -6,5 +6,5 @@ How to run the APP:
 1. First Download the project
 2. Go to your terminal/command prompt and run "pip install flask"
 3. Then open up the downloaded app to any ide
-4. Open up the terminal and run "python app.py"
+4. Open up the terminal and run "python routes.py"
 5. Now you should access the app at http://127.0.0.1:5000/
