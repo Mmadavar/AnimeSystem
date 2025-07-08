@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, UserMixin
-from Recommendation_Algorithm import recommendation
+from Recommendation_Algorithm import anime_recommendation
 import os
 
 
@@ -43,16 +43,16 @@ def index():
 @app.route("/form", methods=["POST", "GET"])
 def form():
     if request.method == "POST":
-        preferred_genre = request.form.get("genre")
+        preferred_genre = request.form.get("genre", "").lower()
         preferred_episodes = request.form.get("episode")
-        recommendations = recommendation(preferred_genre, preferred_episodes,5)
+        total = 5
+        recommendations = anime_recommendation(preferred_episodes, preferred_genre, total)
         return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations.to_dict(orient="records"))
     return render_template("form.html")
 
 
 @app.route("/templates/recommendation.html", methods=["POST", "GET"])
 def recommendation():
-    #  query = flask.request.args
     return render_template("recommendation.html")
 
 

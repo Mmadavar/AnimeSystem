@@ -63,14 +63,14 @@
 </head>
 <body>
 {% if current_user.is_authenticated %}
-<form action="/" method="post">
-    <label>
-        <textarea name="genre" datatype="string">What's your preferred genre</textarea>
+<form action="/form" method="post">
+    <label for="genre">
+        <textarea id="genre" name="genre" placeholder="What's your preferred genre"></textarea>
     </label>
-    <br>
 
-    <label>
-       <textarea name="episode" datatype="number">What's an episode length that you prefer</textarea>
+
+    <label for="episode">
+       <textarea id="episode" name="episode" placeholder="What's an episode length that you prefer"></textarea>
     </label>
     <button type="submit">Submit</button>
 
