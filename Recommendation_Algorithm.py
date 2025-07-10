@@ -12,10 +12,9 @@ def anime_recommendation(episodes, genre, total):
     data["episodes"] = pd.to_numeric(data["episodes"], errors='coerce').fillna(0).astype(int)
     data["genre"] = data["genre"].fillna("").str.lower()
 
-    tfidf = TfidfVectorizer(stop_words='english')
+    tfidf = TfidfVectorizer(norm=None)
     tfidf_matrix = tfidf.fit_transform(data["genre"])
 
-    ############
 
     # tranform input genre into a vector
     input_vector = tfidf.transform([genre])
@@ -25,8 +24,8 @@ def anime_recommendation(episodes, genre, total):
 
     # Filter based on episode length and sort by similarity
     data["similarity"] = genre_similarities
-    filtered_df = data[data["episodes"] <= int(episodes)]
-    recommendations = filtered_df.sort_values(by="similarity")
+    filtered_df = data[(data["episodes"] >= int(episodes) - 50) & (data["episodes"] <= int(episodes) + 50)]
+    recommendations = filtered_df
 
     return recommendations.head(total)[["name", "genre", "episodes"]]
 
