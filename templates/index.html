@@ -24,9 +24,8 @@
         }
 
         .button-group {
-            display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 1rem;
         }
 
         button {
@@ -49,7 +48,7 @@
 
 
 
-        .logout-btn, .delete-btn {
+        .logout-btn, .delete-btn, .login-btn, .register-btn {
             background-color: #ff4b5c;
             color: white;
         }
@@ -66,8 +65,8 @@
     <p>Please Login or register to get started</p>
 
     <div class="button-group">
-        <a href="{{ url_for('login') }}"><button type="button">Login</button></a>
-        <a href="{{ url_for('register') }}"><button type="button">Register</button></a>
+        <a href="{{ url_for('login') }}"><button type="button" class="login-btn">Login</button></a>
+        <a href="{{ url_for('register') }}"><button type="button" class="register-btn">Register</button></a>
     </div>
 {% else %}
     <p>You're already logged in</p>
