@@ -17,7 +17,7 @@
         <ul class="list-group">
             {% for recommendation in recommendations %}
                 <li class="list-group-item list-group-item-light border-0 mb-2 shadow-sm rounded">
-                    Name:{{ recommendation.name }}, genre:{{ recommendation.genre }}, episodes: {{ recommendation.episodes}}
+                    Name:{{ recommendation.name }}, genre:{{ recommendation.genre }}, episodes: {{ recommendation.episodes}}, rating: {{ recommendation.rating}}
                 </li>
             {% endfor %}
         </ul>

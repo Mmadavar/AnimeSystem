@@ -6,7 +6,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # function to get recommendations based on cosine similarity
 def anime_recommendation(episodes, genre, total):
     # load the data and preprocess it
-    data = pd.read_csv('anime.csv', usecols=["genre", "name", "episodes"])
+    data = pd.read_csv('anime.csv', usecols=["genre", "name", "episodes", "rating"])
 
     # convert episodes into numerical vectors using TF-IDF TfidfVectorizer.
     data["episodes"] = pd.to_numeric(data["episodes"], errors='coerce').fillna(0).astype(int)
@@ -24,11 +24,7 @@ def anime_recommendation(episodes, genre, total):
 
     # Filter based on episode length and sort by similarity
     data["similarity"] = genre_similarities
-    filtered_df = data[(data["episodes"] >= int(episodes) - 50) & (data["episodes"] <= int(episodes) + 50)]
-    recommendations = filtered_df
+    filtered_df = data[(data["episodes"] >= int(episodes) - 20) & (data["episodes"] <= int(episodes) + 20)]
+    filtered_df = filtered_df.sort_values(by=["similarity", "rating"], ascending=[False, False])
 
-    return recommendations.head(total)[["name", "genre", "episodes"]]
-
-
-
-
+    return filtered_df.head(total)[["name", "genre", "episodes", "rating"]]

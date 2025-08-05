@@ -45,7 +45,7 @@ def form():
     if request.method == "POST":
         preferred_genre = request.form.get("genre", "").lower()
         preferred_episodes = request.form.get("episode")
-        total = 10
+        total = 30
         recommendations = anime_recommendation(preferred_episodes, preferred_genre, total)
         return render_template("recommendation.html", message="Data Submitted!", recommendations=recommendations.to_dict(orient="records"))
     return render_template("form.html")
