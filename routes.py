@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, UserMixin
 from Recommendation_Algorithm import anime_recommendation
@@ -82,7 +82,7 @@ def login():
             login_user(user)
             return redirect(url_for("index"))
         else:
-            print("Invalid email or password")
+            flash("Invalid email or password", 'error')
 
     return render_template("login.html")
 
@@ -103,11 +103,12 @@ def delete():
         if user:
             db.session.delete(user)
             db.session.commit()
-            message = "User is Deleted"
-            return redirect(url_for("index"))
+            flash("User is Deleted", 'success')
+            return render_template("delete.html")
         else:
-            message = "User not Found"
-            return render_template("delete.html", message=message)
+            flash("User not found", 'error')
+
+    return render_template("delete.html")
 
 
 if __name__ == '__main__':

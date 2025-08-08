@@ -57,10 +57,16 @@
             background-color: #d32f2f;
         }
 
+        .image {
+            margin-top: 50px;
+        }
+
+
     </style>
 </head>
 <body>
 {% if not current_user.is_authenticated %}
+
     <h1>Welcome to the Anime Recommendation System</h1>
     <p>Please Login or register to get started</p>
 
@@ -68,8 +74,13 @@
         <a href="{{ url_for('login') }}"><button type="button" class="login-btn">Login</button></a>
         <a href="{{ url_for('register') }}"><button type="button" class="register-btn">Register</button></a>
     </div>
+
+     <div class="image">
+         <img src="/static/Anime_pic.jpg" height="200" width="200" alt="Responsive image"/>
+     </div>
+
 {% else %}
-    <p>You're already logged in</p>
+    <p>You're logged in</p>
     <div class="logout-section">
         <a href="{{ url_for('logout') }}"><button type="button" class="logout-btn">Logout</button></a>
         <a href="{{ url_for('delete') }}"><button type="button" class="delete-btn">Delete Account</button></a>
@@ -80,7 +91,7 @@
 {% endif %}
 
 
-{% include 'footer.html' %}
+
 
 </body>
 </html>
