@@ -64,6 +64,8 @@
                     <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
                   </div>
 
+
+
                 </form>
 
 
@@ -78,7 +80,12 @@
       </div>
     </div>
   </div>
-    {% with messages = get_flashed_messages(with_categories=true) %}
+
+
+
+</section>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {%  for category, message in messages %}
                             <script>
@@ -86,7 +93,4 @@
                             </script>
                         {%  endfor %}
                     {% endif %}
-    {% endwith %}
-
-
-</section>
+                    {% endwith %}

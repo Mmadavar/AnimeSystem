@@ -19,7 +19,7 @@ db.init_app(app)
 
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(25), unique=True, nullable=False)
+    name = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(250), nullable=False)
     password = db.Column(db.String(250), nullable=False)
 
@@ -58,17 +58,23 @@ def recommendation():
 
 @app.route("/templates/register.html", methods=["GET", "POST"])
 def register():
+
     if request.method == "POST":
         name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
-        user = Users(name=name, email=email, password=password)
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect(url_for("index"))
+        user_check = Users.query.filter(Users.email == email, Users.name == name, Users.password == password).first()
+        if not user_check:
+            user = Users(name=name, email=email, password=password)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for("index"))
+        else:
+            flash("User already exists!", 'error')
 
     return render_template("register.html")
+
+
 
 
 @app.route("/templates/login.html", methods=["GET", "POST"])
