@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user, logout_user, UserMixin
 from Recommendation_Algorithm import anime_recommendation
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 
@@ -22,6 +23,12 @@ class Users(db.Model, UserMixin):
     name = db.Column(db.String(25), nullable=False)
     email = db.Column(db.String(250), nullable=False)
     password = db.Column(db.String(250), nullable=False)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
 
 
 with app.app_context():
@@ -63,9 +70,10 @@ def register():
         name = request.form.get("name")
         email = request.form.get("email")
         password = request.form.get("password")
-        user_check = Users.query.filter(Users.email == email, Users.name == name, Users.password == password).first()
+        user_check = Users.query.filter(Users.email == email, Users.name == name).first()
         if not user_check:
-            user = Users(name=name, email=email, password=password)
+            user = Users(name=name, email=email)
+            user.set_password(password)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for("index"))
@@ -83,8 +91,8 @@ def login():
     # filtering for the username
     if request.method == "POST":
         user = Users.query.filter_by(email=request.form.get("email")).first()
-
-        if user and user.password == request.form.get("password"):
+        password = request.form.get("password")
+        if user and user.check_password(password):
             login_user(user)
             return redirect(url_for("index"))
         else:
@@ -105,7 +113,6 @@ def delete():
         email = request.form.get("email")
         # query by email
         user = Users.query.filter_by(email=email).first()
-
         if user:
             db.session.delete(user)
             db.session.commit()
