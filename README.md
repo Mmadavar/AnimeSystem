@@ -8,3 +8,9 @@ How to run the APP:
 3. Then open up the downloaded app to any ide
 4. Open up the terminal and run "python routes.py"
 5. Now you should access the app at http://127.0.0.1:5000/
+
+
+Here is the link to my app:
+https://anime-recommendation-e345ec47aab7.herokuapp.com/
+
+Feel free to visit the site anytime.
