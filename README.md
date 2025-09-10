@@ -1,16 +1,33 @@
-Hello everyone I'm making an AI/ML app and I want to make an anime recommendation system by having the user input their preferred episode length and genre.
-I'm currently working on the AI/ML algorithms to make the successful recommendations and I will make sure to keep everyone updated.
+🎌 Anime Recommendation System
 
-How to run the APP:
+A web-based Anime Recommendation System built with Flask that recommends anime shows and movies based on user preferences. The system leverages cosine similarity for accurate recommendations and integrates a large-scale dataset of around 12,000 anime titles.
 
-1. First Download the project
-2. Go to your terminal/command prompt and run "pip install flask"
-3. Then open up the downloaded app to any ide
-4. Open up the terminal and run "python routes.py"
-5. Now you should access the app at http://127.0.0.1:5000/
+🚀 Features
 
+🔑 User Authentication – Register and log in to manage your profile.
+🎥 Content-Based Recommendations – Uses cosine similarity to suggest anime titles based on what you like.
+📊 Large Dataset Integration** – Supports 12,000+ shows and movies for broad and diverse recommendations.
 
-Here is the link to my app:
-https://anime-recommendation-e345ec47aab7.herokuapp.com/
+🛠️ Tech Stack
 
-Feel free to visit the site anytime.
+Backend: Flask (Python)
+Database: SQLAlchemy
+Recommendation Engine: Cosine Similarity (scikit-learn, NumPy, pandas)
+Frontend: HTML, CSS, Bootstrap
+Version Control: Git & GitHub
+
+🧮 How It Works
+
+1. User Login/Signup – Users register and log in.
+2. Input/Selection – Users can search or choose anime titles.
+3. Recommendation Engine –
+
+   Extracts features from the dataset.
+   Computes cosine similarity between titles.
+   Ranks the most relevant shows.
+4. Result Display – Presents the top recommended anime titles.
+
+📊 Dataset
+
+Size: Around 12,000 anime titles (combined shows + movies).
+Attributes: Title, Genre, and Ratings.
